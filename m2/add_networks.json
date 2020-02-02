@@ -1,0 +1,36 @@
+[
+  {
+    "body": {
+      "name": "Home Wireless",
+      "timeZone": "America/New_York",
+      "type": "wireless"
+    },
+    "devices": [
+      {
+        "add": {
+          "serial": "Q2XD-R6QM-XUMP"
+        },
+        "update": {
+          "name": "Recording Studio"
+        }
+      }
+    ]
+  },
+  {
+    "body": {
+      "name": "Home Camera",
+      "timeZone": "America/New_York",
+      "type": "camera"
+    },
+    "devices": [
+      {
+        "add": {
+          "serial": "Q2FV-RQJM-572T"
+        },
+        "update": {
+          "name": "Living Room"
+        }
+      }
+    ]
+  }
+]
