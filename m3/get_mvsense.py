@@ -30,6 +30,7 @@ def main(sn):
 
 
 if __name__ == "__main__":
+    # Serial number must be supplied as CLI argument
     if len(sys.argv) != 2:
         print("usage: python mvsense.py <camera_serial>")
         sys.exit(1)

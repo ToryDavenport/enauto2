@@ -7,19 +7,19 @@ webhooks. The webhook data is read in from a JSON file,
 and this script automatically trigger test webhooks.
 """
 
-import sys
+import os
 import time
 import json
-from meraki_helpers import get_devnet_network_id, req
+from meraki_helpers import get_network_id, req
 
 
-def main(net_name):
+def main(org_name, net_name):
     """
     Execution begins here.
     """
 
-    # Find the network ID for our reserved instance
-    net_id = get_devnet_network_id(net_name)
+    # Find the network ID for the specified org and network
+    net_id = get_network_id(net_name, org_name)
 
     # Load in the webhooks to add from the JSON file
     with open("add_webhooks.json", "r") as handle:
@@ -77,10 +77,11 @@ def main(net_name):
 
 
 if __name__ == "__main__":
-    # Ensure there are exactly 2 CLI args (file name, net name)
-    if len(sys.argv) != 2:
-        print("usage: python build_network.py <net_name>")
-        sys.exit(1)
+    # Get the org name from the env var; default to DevNet
+    org = os.environ.get("MERAKI_ORG_NAME", "DevNet Sandbox")
 
-    # Pass in the arguments into main()
-    main(sys.argv[1])
+    # Get the network name from the env var; default to DevNet
+    net = os.environ.get("MERAKI_NET_NAME", "DevNet Sandbox Always on READ ONLY")
+
+    # Pass in org and net name arguments into main()
+    main(org, net)

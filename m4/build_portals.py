@@ -6,8 +6,8 @@ Purpose: Using the Cisco Meraki REST API to create/update
 external captive portal (excap) settings on Meraki SSIDs.
 """
 
+import os
 import json
-import sys
 from meraki_helpers import get_network_id, req
 
 
@@ -46,11 +46,11 @@ def main(org_name, net_name):
 
 
 if __name__ == "__main__":
-    # Ensure there are exactly 3 CLI args (file name, org name, net name)
-    if len(sys.argv) != 3:
-        print("usage: python splash.py <org_name> <net_name>")
-        sys.exit(1)
+    # Get the org name from the env var; default to DevNet
+    org = os.environ.get("MERAKI_ORG_NAME", "DevNet Sandbox")
 
-    # Pass in the arguments into main()
-    main(sys.argv[1], sys.argv[2])
-    # python splash.py "Loop Free Consulting" "Home Wireless"
+    # Get the network name from the env var; default to DevNet
+    net = os.environ.get("MERAKI_NET_NAME", "DevNet Sandbox Always on READ ONLY")
+
+    # Pass in the org and network arguments into main()
+    main(org, net)

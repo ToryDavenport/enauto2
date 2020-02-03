@@ -8,6 +8,7 @@ Note that you can use the Enterprise or Small Business sandboxes
 with this script (or a production deployment).
 """
 
+import os
 import sys
 import json
 from meraki_helpers import find_id_by_name, req
@@ -97,10 +98,8 @@ def main(org_name):
 
 
 if __name__ == "__main__":
-    # Ensure there are exactly 2 CLI args (file name, org name)
-    if len(sys.argv) != 2:
-        print("usage: python build_network.py <org_name>")
-        sys.exit(1)
+    # Get the org name from the env var; default to DevNet
+    org = os.environ.get("MERAKI_ORG_NAME", "DevNet Sandbox")
 
     # Pass in the org name argument into main()
-    main(sys.argv[1])
+    main(org)

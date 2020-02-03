@@ -6,16 +6,22 @@ Purpose: Using the Cisco Meraki REST API to collect video
 footage from MV sense cameras.
 """
 
+import os
 import sys
 import time
 import requests
 from meraki_helpers import get_network_id, req
 
 
-def main(org_name, net_name):
+def main(org_name, net_name, timestamp):
     """
     Execution begins here.
     """
+
+    # Create output directory for snapshots
+    snapshot_dir = "snapshots"
+    if not os.path.exists(snapshot_dir):
+        os.makedirs(snapshot_dir)
 
     # Find the network ID for the specified org and network
     net_id = get_network_id(net_name, org_name)
@@ -38,8 +44,8 @@ def main(org_name, net_name):
         # import json; print(json.dumps(video_link, indent=2))
         print(f"Video link for camera {sn}:\n{video_link['url']}")
 
-        # TODO need to figure out a smart timestamp approach
-        timestamp = None
+        # If a timestamp was specified, build it into a query parameter
+        # Example timestamp format: 2020-012-31T12:51:52Z
         if timestamp:
             params = {"timestamp": timestamp}
         else:
@@ -65,20 +71,25 @@ def main(org_name, net_name):
         image = requests.get(snapshot_link["url"])
         image.raise_for_status()
 
-        # Open a new jpg file for writing bytes (not text) and includ
+        # Open a new jpg file for writing bytes (not text) and include
         # the HTTP content as bytes (not text)
-        # TODO need to create this directory first
-        with open(f"camera_snapshots/{sn}.jpg", "wb") as handle:
+        with open(f"{snapshot_dir}/{sn}.jpg", "wb") as handle:
             handle.write(image.content)
 
         print(f"Snapshot for camera {sn} saved")
 
 
 if __name__ == "__main__":
-    if len(sys.argv) != 3:
-        print("usage: python splash.py <org_name> <net_name>")
-        sys.exit(1)
+    # Get the org name from the env var; default to DevNet
+    org = os.environ.get("MERAKI_ORG_NAME", "DevNet Sandbox")
 
-    # Pass in the arguments into main()
-    main(sys.argv[1], sys.argv[2])
-    # python cameras.py "Loop Free Consulting" "Home Camera"
+    # Get the network name from the env var; default to DevNet
+    net = os.environ.get("MERAKI_NET_NAME", "DevNet Sandbox Always on READ ONLY")
+
+    # Process optional timestamp if specified
+    timest = None
+    if len(sys.argv) > 1:
+        timest = sys.argv[1]
+
+    # Pass in the org, network, and optional timestamp arguments into main()
+    main(org, net, timest)
