@@ -62,14 +62,21 @@ def main(org_name, net_name, timestamp):
         # Print the retrieved snapshot link response
         # import json; print(json.dumps(snapshot_link, indent=2))
 
-        # It takes some time for the snapshot to be available, usually
-        # 2 seconds, so wait for a short time until the process completes
-        time.sleep(5)
+        for _ in range(5):
+            # It takes some time for the snapshot to be available, usually
+            # 3 seconds, so wait for a short time until the process completes
+            time.sleep(3)
 
-        # Perform a low-level GET request to the snapshot URL which does not
-        # use the Meraki dashboard API, nor does it require authentication.
-        image = requests.get(snapshot_link["url"])
-        image.raise_for_status()
+            # Perform a low-level GET request to the snapshot URL which does not
+            # use the Meraki dashboard API, nor does it require authentication.
+            image = requests.get(snapshot_link["url"])
+
+            # If HTTP code 200 (OK) is returned, quit the loop and continue
+            if image.status_code == 200:
+                break
+        else:
+            print(f"Could not collect snapshot for camera {sn} right now")
+            sys.exit(1)
 
         # Open a new jpg file for writing bytes (not text) and include
         # the HTTP content as bytes (not text)

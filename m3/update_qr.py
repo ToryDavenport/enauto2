@@ -16,7 +16,7 @@ def main():
     """
 
     # Load the camera settings from JSON file
-    with open("camera_settings.json", "r") as handle:
+    with open("qr_settings.json", "r") as handle:
         settings = json.load(handle)
 
     # Iterate over the cameras collected
