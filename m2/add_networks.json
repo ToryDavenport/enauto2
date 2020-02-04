@@ -1,7 +1,7 @@
 [
   {
     "body": {
-      "name": "Home Wireless",
+      "name": "Globo Wireless",
       "timeZone": "America/New_York",
       "type": "wireless"
     },
@@ -11,14 +11,14 @@
           "serial": "Q2XD-R6QM-XUMP"
         },
         "update": {
-          "name": "Recording Studio"
+          "name": "First Floor AP"
         }
       }
     ]
   },
   {
     "body": {
-      "name": "Home Camera",
+      "name": "Globo Camera",
       "timeZone": "America/New_York",
       "type": "camera"
     },
@@ -28,7 +28,7 @@
           "serial": "Q2FV-RQJM-572T"
         },
         "update": {
-          "name": "Living Room"
+          "name": "Lobby Cam"
         }
       }
     ]
