@@ -23,6 +23,7 @@ def find_id_by_name(list_of_dicts, search_name):
             break
     return found_id
 
+
 def get_network_id(net_name, org_name="devnet sandbox"):
     """
     Most configuration changes require specifying the network ID
@@ -56,7 +57,7 @@ def get_network_id(net_name, org_name="devnet sandbox"):
     return net_id
 
 
-def req(resource, method="get", json=None, params=None):
+def req(resource, method="get", jsonbody=None, params=None):
     """
     Helper function to reduce repetitive HTTP requests. Takes in a
     specific REST resource and returns HTTP Response object.
@@ -84,7 +85,11 @@ def req(resource, method="get", json=None, params=None):
     # Assemble the complete URL by appending the resource to the API path,
     # and issue HTTP GET using proper authentication headers
     resp = requests.request(
-        method=method, url=f"{api_path}/{resource}", headers=headers, json=json, params=params
+        method=method,
+        url=f"{api_path}/{resource}",
+        headers=headers,
+        json=jsonbody,
+        params=params,
     )
 
     # If status code >= 400, raise HTTPError
