@@ -76,7 +76,7 @@ def main(org_name, net_name, timestamp):
                 break
         else:
             print(f"Could not collect snapshot for camera {sn} right now")
-            sys.exit(1)
+            continue
 
         # Open a new jpg file for writing bytes (not text) and include
         # the HTTP content as bytes (not text)
