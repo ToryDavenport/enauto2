@@ -3,13 +3,11 @@
 """
 Author: Nick Russo
 Purpose: Using the Cisco Meraki REST API to create/update
-organizations and their networks in the Cisco DevNet sandbox.
-Note that you can use the Enterprise or Small Business sandboxes
-with this script (or a production deployment).
+networks from a JSON file using the REST API. This may not
+work in DevNet sandboxes; try it on a private deployment, too.
 """
 
 import os
-import sys
 import json
 from meraki_helpers import find_id_by_name, req
 
@@ -54,13 +52,13 @@ def main(org_name):
         # The network already exists; not an error, but gracefully exit
         if net_id:
             print(f"Network {net_name} already exists ({net_id})")
-            sys.exit(0)
+            continue
 
         # Network does not exist, so create it and capture the network ID
         new_net = req(
             f"/organizations/{org_id}/networks",
             method="post",
-            json=item["body"],
+            jsonbody=item["body"],
         ).json()
         net_id = new_net["id"]
         print(f"Created network {net_name} with ID {net_id}")
@@ -74,7 +72,7 @@ def main(org_name):
             req(
                 f"networks/{net_id}/devices/claim",
                 method="post",
-                json=device["add"],
+                jsonbody=device["add"],
             )
             sn = device["add"]["serial"]
             print(f"Device with SN {sn} added")
@@ -85,7 +83,7 @@ def main(org_name):
             update = req(
                 f"networks/{net_id}/devices/{sn}",
                 method="put",
-                json=device["update"],
+                jsonbody=device["update"],
             ).json()
             print(f"Device with SN {sn} named {device['update']['name']}")
 
