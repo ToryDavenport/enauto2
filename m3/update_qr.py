@@ -32,7 +32,7 @@ def main():
 
         # Issue a PUT request to update the settings based on the
         # JSON data read from the input file
-        updated = req(url, method="put", json=body).json()
+        updated = req(url, method="put", jsonbody=body).json()
 
         # Print the newly updated quality and retention settings
         print(f"\nUpdated settings for camera {sn}")
