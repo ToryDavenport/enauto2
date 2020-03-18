@@ -5,7 +5,6 @@
       "enabled": true,
       "splashPage": "Click-through splash page",
       "authMode": "open",
-      "walledGardenEnabled": true,
       "adminSplashUrl": "http://excapjs.njrusmc.net/index.html",
       "walledGardenEnabled": true,
       "walledGardenRanges": "excapjs.njrusmc.net"
