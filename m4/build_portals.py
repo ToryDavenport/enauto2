@@ -33,7 +33,7 @@ def main(org_name, net_name, file_name):
 
         # Issue the PUT request to update the SSID general parameters
         print(f"Updating SSID {ssid_number} for {body['ssid_body']['name']}")
-        update_ssid = req(ssid_base, method="put", json=body["ssid_body"])
+        update_ssid = req(ssid_base, method="put", jsonbody=body["ssid_body"])
 
         # Debugging statement to check the updated SSID information
         # print(json.dumps(update_ssid.json(), indent=2))
@@ -47,7 +47,7 @@ def main(org_name, net_name, file_name):
             update_splash = req(
                 f"{ssid_base}/splashSettings",
                 method="put",
-                json=body["splash_body"],
+                jsonbody=body["splash_body"],
             )
 
         # Debugging statement to check the updated splash information

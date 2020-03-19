@@ -7,7 +7,6 @@ of currently associated clients on a given network.
 """
 
 import os
-import json
 from meraki_helpers import get_network_id, req
 
 
@@ -23,13 +22,13 @@ def main(org_name, net_name):
     get_clients = req(f"networks/{net_id}/clients").json()
 
     # Debugging statement to check the updated SSID information
-    # print(json.dumps(get_clients, indent=2))
+    # import json; print(json.dumps(get_clients, indent=2))
 
     # Iterate through list of clients, printing each one on
     # a numbered row for easy reviewing
     for i, client in enumerate(get_clients):
         print(
-            f"{i+1}.  Name: {client['description']}  "
+            f"{i+1}. Name: {client['description']}  "
             f"MAC: {client['mac']}  Status: {client['status']}"
         )
 
