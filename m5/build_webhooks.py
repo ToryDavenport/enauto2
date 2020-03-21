@@ -34,7 +34,7 @@ def main(org_name, net_name):
             print(" url is not 'https', skipping")
             continue
         add_http = req(
-            f"networks/{net_id}/httpServers", method="post", json=webhook
+            f"networks/{net_id}/httpServers", method="post", jsonbody=webhook
         ).json()
 
         # Print JSON structure of response for troubleshooting
@@ -46,12 +46,12 @@ def main(org_name, net_name):
         test_http = req(
             f"networks/{net_id}/httpServers/webhookTests",
             method="post",
-            json={"url": webhook["url"]},
+            jsonbody={"url": webhook["url"]},
         ).json()
 
         # Ensure the webhooks are enqueued (ie, started successfully)
         if test_http["status"] != "enqueued":
-            raise ValueError("webhook creation failed: {test_http['status']}")
+            raise ValueError(f"webhook creation failed: {test_http['status']}")
 
         # Wait until the state changes from "enqueued"
         while test_http["status"] == "enqueued":
@@ -68,7 +68,7 @@ def main(org_name, net_name):
         # The final status should be "delivered"; if not, raise error
         # For additional confirmation, check the webhook receivers too
         if test_http["status"] != "delivered":
-            raise ValueError("webhook delivery failed: {test_http['status']}")
+            raise ValueError(f"webhook delivery failed: {test_http['status']}")
 
     # Collect the current webhooks and print them as confirmation
     net_http = req(f"networks/{net_id}/httpServers").json()
